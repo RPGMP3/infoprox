@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "infoprox"
+version = "0.1.0"
+description = "Procedural Infocom-style text adventure"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Your Name" }]
+
+
+[project.scripts]
+infoprox = "adventure.cli:main"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/adventure"]
