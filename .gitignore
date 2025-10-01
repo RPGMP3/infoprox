@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+
+# Environments
+.venv/
+.env/
+venv/
+
+
+# Build
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+
+
+# Logs & saves
+*.log
+save.json
