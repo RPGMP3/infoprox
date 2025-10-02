@@ -10,6 +10,7 @@ class Item:
     tags: List[str] = field(default_factory=list)
     portable: bool = True
     description: str = ""
+    weight: int = 1  # used for pressure plates
 
 
 @dataclass
@@ -18,6 +19,7 @@ class Exit:
     locked: bool = False
     key_tag: Optional[str] = None  # e.g., "key:brass"
     description: str = ""
+    requires_plate: bool = False   # gate that opens only while plate pressed
 
 
 @dataclass
@@ -29,6 +31,7 @@ class Room:
     exits: Dict[str, Exit] = field(default_factory=dict)
     seen: bool = False
     base_desc: str = ""
+    plate_threshold: Optional[int] = None  # total item weight needed to hold a plate down
 
 
 @dataclass
@@ -45,5 +48,8 @@ def short_room_text(room: Room) -> str:
     if room.items:
         names = ", ".join(i.name for i in room.items)
         items = f" You see {names}."
-    return f"{seen}{room.name}. {room.base_desc} Exits lead {exits}.{items}"
+    plate = ""
+    if room.plate_threshold is not None:
+        plate = " A heavy stone plate rests in the floor."
+    return f"{seen}{room.name}. {room.base_desc}{plate} Exits lead {exits}.{items}"
 

@@ -4,7 +4,7 @@ from typing import Any
 
 from adventure.engine.gen import make_world
 from adventure.engine.parser import parse
-from adventure.engine.actions import do_go, do_inventory, do_look, do_take, do_use
+from adventure.engine.actions import do_go, do_inventory, do_look, do_take, do_use, do_debug
 from adventure.engine.save import save_game, load_state
 from adventure.engine.world import Item
 
@@ -67,6 +67,8 @@ def loop(gs: GameState):
         if verb == "save":
             filename = args.get("rest") or "save.json"
             print(save_game(gs, filename)); continue
+        if verb == "debug":
+            print(do_debug(gs)); continue
         if verb == "load":
             print("Use the CLI: infoprox load save.json"); continue
         if verb == "quit":
