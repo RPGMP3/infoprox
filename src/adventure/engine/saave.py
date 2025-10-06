@@ -2,10 +2,6 @@ import json
 from dataclasses import asdict
 
 def save_game(gs, filename="save.json"):
-    """
-    Persist minimal, theme-aware state. World structure is regenerated from seed+theme+room count.
-    We store the mutable bits: current room, score, inventory, per-room seen/items/locked flags.
-    """
     data = {
         "seed": gs.world.seed,
         "theme": gs.world.theme,
@@ -27,17 +23,11 @@ def save_game(gs, filename="save.json"):
     return f"Game saved to {filename}."
 
 def load_state(world, data):
-    """
-    Apply saved mutable state to a freshly-regenerated world.
-    """
     from adventure.engine.world import Item
-
-    # restore per-room state
     for rid, rdata in data["rooms"].items():
         r = world.rooms[rid]
         r.seen = rdata["seen"]
         r.items = [Item(**it) for it in rdata["items"]]
         for d, ed in rdata["exits"].items():
-            if d in r.exits:
-                r.exits[d].locked = ed["locked"]
+            world.rooms[rid].exits[d].locked = ed["locked"]
 

@@ -1,24 +1,27 @@
-# Python
+cat > .gitignore << 'GIT'
+# venvs
+.venv/
+venv/
+env/
+
+# python build artifacts
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-*.so
-
-
-# Environments
-.venv/
-.env/
-venv/
-
-
-# Build
-build/
-dist/
-*.egg-info/
-.pytest_cache/
-
-
-# Logs & saves
 *.log
+*.egg-info/
+dist/
+build/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# runtime saves
 save.json
+meta.json
+GIT
+

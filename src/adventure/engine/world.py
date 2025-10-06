@@ -3,24 +3,19 @@ from typing import Dict, List, Optional
 
 DIRECTIONS = ["north", "south", "east", "west", "up", "down"]
 
-
 @dataclass
 class Item:
     name: str
     tags: List[str] = field(default_factory=list)
     portable: bool = True
     description: str = ""
-    weight: int = 1  # used for pressure plates
-
 
 @dataclass
 class Exit:
-    to: str                  # room id
+    to: str  # room id
     locked: bool = False
-    key_tag: Optional[str] = None  # e.g., "key:brass"
+    key_tag: Optional[str] = None  # e.g., "key:rune1"
     description: str = ""
-    requires_plate: bool = False   # gate that opens only while plate pressed
-
 
 @dataclass
 class Room:
@@ -31,15 +26,13 @@ class Room:
     exits: Dict[str, Exit] = field(default_factory=dict)
     seen: bool = False
     base_desc: str = ""
-    plate_threshold: Optional[int] = None  # total item weight needed to hold a plate down
-
 
 @dataclass
 class World:
     rooms: Dict[str, Room]
     start: str
     seed: int
-
+    theme: str  # "fantasy" | "scifi" | "horror"
 
 def short_room_text(room: Room) -> str:
     exits = ", ".join([d for d in room.exits.keys()]) or "nowhere"
@@ -48,8 +41,5 @@ def short_room_text(room: Room) -> str:
     if room.items:
         names = ", ".join(i.name for i in room.items)
         items = f" You see {names}."
-    plate = ""
-    if room.plate_threshold is not None:
-        plate = " A heavy stone plate rests in the floor."
-    return f"{seen}{room.name}. {room.base_desc}{plate} Exits lead {exits}.{items}"
+    return f"{seen}{room.name}. {room.base_desc} Exits lead {exits}.{items}"
 
